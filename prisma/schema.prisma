@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output="../generated-prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  nodes     Node[]
+  createdAt DateTime @default(now())
+}
+
+model Node {
+  id              String   @id @default(uuid())
+  title           String
+  content         String   @default("")
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  importanceScore Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  edgesFrom Edge[] @relation("EdgeFrom")
+  edgesTo   Edge[] @relation("EdgeTo")
+  
+  @@index([userId])
+}
+
+model Edge {
+  id         String @id @default(uuid())
+  fromNodeId String
+  toNodeId   String
+  type       String @default("reference") // reference | parent | example | contradiction
+  weight     Float  @default(1.0)
+  
+  fromNode Node @relation("EdgeFrom", fields: [fromNodeId], references: [id], onDelete: Cascade)
+  toNode   Node @relation("EdgeTo", fields: [toNodeId], references: [id], onDelete: Cascade)
+  
+  @@unique([fromNodeId, toNodeId])
+  @@index([fromNodeId])
+  @@index([toNodeId])
+}
