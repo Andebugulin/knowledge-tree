@@ -71,19 +71,19 @@ export default function Dashboard() {
 
   const createNode = trpc.node.create.useMutation({
     onSuccess: (newNode) => {
-      utils.node.getAll.invalidate();
       setTitle("");
       setContent("");
       setShowCreatePopup(false);
-      // Don't set editNodeId immediately, wait for graph to update
-      setTimeout(() => {
-        setEditNodeId(newNode.id);
-        setEditTitle(newNode.title);
-        setEditContent(newNode.content);
-      }, 100);
       setIsLinkMode(false);
       setPendingLinkTarget(null);
       setLinkTypeSelection("parent");
+
+      setTimeout(() => {
+        utils.node.getAll.invalidate();
+        setEditNodeId(newNode.id);
+        setEditTitle(newNode.title);
+        setEditContent(newNode.content);
+      }, 150);
     },
   });
 
@@ -1158,6 +1158,7 @@ export default function Dashboard() {
           } ${editNode && sidebarPosition === "left" ? "ml-0" : ""}`}
         >
           <GraphView
+            key={`graph-${showCreatePopup || editNode ? "sidebar" : "full"}`}
             nodes={nodes || []}
             onNodeClick={handleNodeClick}
             onNodeHover={handleNodeHover}

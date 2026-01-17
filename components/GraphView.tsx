@@ -240,7 +240,15 @@ export default function GraphView({
   useEffect(() => {
     const graph = graphRef.current;
     const sigma = sigmaRef.current;
-    if (!graph || !sigma || nodes.length === 0) return;
+    if (!graph || !sigma) return;
+
+    // If no nodes, clear everything and reset camera
+    if (nodes.length === 0) {
+      graph.clear();
+      cameraStateRef.current = null;
+      sigma.refresh();
+      return;
+    }
 
     // Save current camera state before rebuilding - BUT ONLY IF IT'S NOT DEFAULT
     const camera = sigma.getCamera();
@@ -616,15 +624,11 @@ export default function GraphView({
 
   if (nodes.length === 0) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
-        <button
-          onClick={(e) => {
-            onEmptyDoubleClick(window.innerWidth / 2, window.innerHeight / 2);
-          }}
-          className="px-8 py-4 bg-[#5D0E41] hover:bg-[#A0153E] text-white rounded-lg text-base font-medium transition-all duration-200 hover:shadow-lg"
-        >
-          Create First Node
-        </button>
+      <div className="w-full h-full bg-[#0A0A0F] flex items-center justify-center">
+        <p className="text-gray-400 text-base">
+          No nodes yet. Click the &ldquo;New Node&rdquo; button in the top bar
+          to create your first node.
+        </p>
       </div>
     );
   }
