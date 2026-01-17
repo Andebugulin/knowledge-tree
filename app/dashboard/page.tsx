@@ -1260,13 +1260,10 @@ export default function Dashboard() {
                     </p>
                     <div className="space-y-1">
                       <p className="text-xs text-gray-300 font-light">
-                        • Double-click: Create node
-                      </p>
-                      <p className="text-xs text-gray-300 font-light">
                         • Click node: Edit
                       </p>
                       <p className="text-xs text-gray-300 font-light">
-                        • Link mode: Select target
+                        • Link mode: Links nodes
                       </p>
                       <p className="text-xs text-gray-300 font-light">
                         • Esc: Close / Cancel

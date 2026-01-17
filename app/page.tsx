@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { auth } from "@/app/api/auth/[...nextauth]/route";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth();
   return (
     <div className="min-h-screen bg-[#0A0A0F] flex flex-col">
       {/* Header */}
@@ -47,18 +49,29 @@ export default function Home() {
               </a>
             </div>
             <div className="flex gap-3">
-              <Link
-                href="/login"
-                className="text-sm text-gray-400 hover:text-white font-light transition-colors px-4 py-2"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/register"
-                className="text-sm bg-[#5D0E41] hover:bg-[#A0153E] text-white font-medium px-4 py-2 rounded-md transition-all duration-200"
-              >
-                Get Started
-              </Link>
+              {session ? (
+                <Link
+                  href="/dashboard"
+                  className="text-sm bg-[#5D0E41] hover:bg-[#A0153E] text-white font-medium px-4 py-2 rounded-md transition-all duration-200"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className="text-sm text-gray-400 hover:text-white font-light transition-colors px-4 py-2"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="text-sm bg-[#5D0E41] hover:bg-[#A0153E] text-white font-medium px-4 py-2 rounded-md transition-all duration-200"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -82,18 +95,29 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-            <Link
-              href="/register"
-              className="w-full sm:w-auto bg-[#5D0E41] hover:bg-[#A0153E] text-white px-8 py-4 rounded-md text-base font-medium transition-all duration-200 hover:shadow-lg"
-            >
-              Start Building
-            </Link>
-            <Link
-              href="/login"
-              className="w-full sm:w-auto bg-[#1A1A24] hover:bg-[#222230] text-gray-300 px-8 py-4 rounded-md text-base font-medium transition-all duration-200"
-            >
-              Sign In
-            </Link>
+            {session ? (
+              <Link
+                href="/dashboard"
+                className="w-full sm:w-auto bg-[#5D0E41] hover:bg-[#A0153E] text-white px-8 py-4 rounded-md text-base font-medium transition-all duration-200 hover:shadow-lg"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/register"
+                  className="w-full sm:w-auto bg-[#5D0E41] hover:bg-[#A0153E] text-white px-8 py-4 rounded-md text-base font-medium transition-all duration-200 hover:shadow-lg"
+                >
+                  Start Building
+                </Link>
+                <Link
+                  href="/login"
+                  className="w-full sm:w-auto bg-[#1A1A24] hover:bg-[#222230] text-gray-300 px-8 py-4 rounded-md text-base font-medium transition-all duration-200"
+                >
+                  Sign In
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Features */}
