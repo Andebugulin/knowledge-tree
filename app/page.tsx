@@ -14,7 +14,22 @@ export default async function Home() {
           <div className="flex items-center gap-6">
             <div className="hidden sm:flex items-center gap-4">
               <a
-                href="https://github.com/yourusername/knowledge-tree"
+                href="https://github.com/Andebugulin/kn-owl-edge-tree/stargazers"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-[#1A1A24] hover:bg-[#222230] text-gray-300 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 border border-[#2A2A34] hover:border-[#3A3A44]"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+                <span id="star-count">-</span>
+              </a>
+              <a
+                href="https://github.com/Andebugulin/kn-owl-edge-tree"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
@@ -33,7 +48,7 @@ export default async function Home() {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/in/yourprofile"
+                href="https://www.linkedin.com/in/andrei-gulin/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
@@ -48,6 +63,19 @@ export default async function Home() {
                 </svg>
               </a>
             </div>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+              fetch('https://api.github.com/repos/Andebugulin/kn-owl-edge-tree')
+                .then(res => res.json())
+                .then(data => {
+                  const el = document.getElementById('star-count');
+                  if (el) el.textContent = data.stargazers_count || '0';
+                })
+                .catch(() => {});
+            `,
+              }}
+            />
             <div className="flex gap-3">
               {session ? (
                 <Link
@@ -165,7 +193,7 @@ export default async function Home() {
             </div>
             <div className="flex items-center gap-4">
               <a
-                href="https://github.com/yourusername/knowledge-tree"
+                href="https://github.com/Andebugulin/kn-owl-edge-tree"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 hover:text-gray-400 transition-colors"
@@ -184,7 +212,7 @@ export default async function Home() {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/in/yourprofile"
+                href="https://www.linkedin.com/in/andrei-gulin/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 hover:text-gray-400 transition-colors"
